@@ -38,9 +38,14 @@ var fourRoomsApp = function (d) {
 
         if (model.actionKeys.indexOf(k) > -1) {
             if (k === "ArrowUp" || k === "8" || k === "u") {
-                if (y !== limitY[0]) {
+                if (y === limitY[0]) {
+                    if (x === 75) {
+                        y -= incr; // up
+                    }
+                } else {
                     y -= incr; // up
                 }
+
             } else if (k === "ArrowRight" || k === "6" || k === "k") {
                 if (x !== limitX[1]) {
                     x += incr; // right
@@ -50,7 +55,11 @@ var fourRoomsApp = function (d) {
                     x -= incr; // left
                 }
             } else {
-                if (y !== limitY[1]) {
+                if (y === limitY[1]) {
+                    if (x === 75) {
+                        y += incr; // down
+                    }
+                } else {
                     y += incr; // down
                 }
             }
