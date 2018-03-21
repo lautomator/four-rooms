@@ -16,8 +16,9 @@
 
         body{ font-family: "Monaco", sans-serif; }
 
+        .mobile { display: none; }
+
         .container {
-            border: 1px dotted #000;
             height: 525px;
             margin: 10px auto;
             width: 525px;
@@ -90,11 +91,13 @@
         }
 
         @media (max-width:768px) {
-            .container { width: 100%; }
+            .container { display: none; }
+            .mobile { display: block; }
         }
     </style>
 </head>
 <body>
+    <div class="mobile"><p>This app is currently for desktop only.</p></div>
     <div class="container">
         <div class="row">
             <div id="roomA" class="room">A</div>

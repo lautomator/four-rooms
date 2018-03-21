@@ -7,7 +7,7 @@ var fourRoomsApp = function (d) {
      * u (up), k (right), h (left), n (down) */
 
     var model = {
-        targets: d.targets,
+        htmlTargets: d.targets,
         actionKeys: ["ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown", "8", "6", "4", "2", "u", "k", "h", "n"],
         pos: [75, 75], // x, y
         incr: 25,
@@ -16,13 +16,13 @@ var fourRoomsApp = function (d) {
 
     // views
     function renderPointer(pos) {
-        var pointerEl = model.targets.pointer;
+        var pointerEl = model.htmlTargets.pointer;
         pointerEl.style.left = pos[0].toString() + "px";
         pointerEl.style.top = pos[1].toString()  + "px";
     }
 
     function renderRooms(dimensions) {
-        var roomEl = model.targets.mainRoom;
+        var roomEl = model.htmlTargets.mainRoom;
         roomEl.style.width = dimensions[0];
         roomEl.style.height = dimensions[1];
     }
@@ -62,8 +62,8 @@ var fourRoomsApp = function (d) {
     document.addEventListener("keydown", function (item) {
         const keyName = item.key;
         movePointer(keyName);
-        console.log(model.pos);
         renderPointer(model.pos);
+        console.log(model.pos);
     });
 
     function init() {
