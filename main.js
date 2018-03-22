@@ -15,7 +15,38 @@ var fourRoomsApp = function (d) {
             x: [0, 500], // min, max
             y: [0, 500]
         },
-        roomSize: [175, 175] // w, h
+        rooms: {
+            M: {
+                perimeter: {
+                    x: [175, 325],
+                    y: [175, 325]
+                }
+            },
+            A: {
+                perimeter: {
+                    x: [0, 150],
+                    y: [0, 150]
+                }
+            },
+            B: {
+                perimeter: {
+                    x: [0, 150],
+                    y: [175, 325]
+                }
+            },
+            C: {
+                perimeter: {
+                    x: [350, 500],
+                    y: [175, 325]
+                }
+            },
+            D: {
+                perimeter: {
+                    x: [350, 500],
+                    y: [350, 500]
+                }
+            }
+        }
     };
 
     // views
@@ -23,12 +54,6 @@ var fourRoomsApp = function (d) {
         var pointerEl = model.htmlTargets.pointer;
         pointerEl.style.left = pos[0].toString() + "px";
         pointerEl.style.top = pos[1].toString()  + "px";
-    }
-
-    function renderRooms(dimensions) {
-        var roomEl = model.htmlTargets.mainRoom;
-        roomEl.style.width = dimensions[0];
-        roomEl.style.height = dimensions[1];
     }
 
     function movePointer(k) {
@@ -41,21 +66,60 @@ var fourRoomsApp = function (d) {
 
         if (model.actionKeys.indexOf(k) > -1) {
             if (k === "ArrowUp" || k === "8" || k === "u") {
-                // check perimieter
                 if (y > limitY[0]) {
-                    y -= incr; // up
+                    if (x > 150 && y === 175) {
+                        console.log("out of bounds");
+                    } else if (x !== 125 && y ===175) {
+                        console.log("that's a wall");
+                    } else if (x !== 375 && y === 350) {
+                        console.log("that's a wall");
+                    } else {
+                        y -= incr; // up
+                    }
+                } else {
+                    console.log("out of bounds");
                 }
             } else if (k === "ArrowRight" || k === "6" || k === "k") {
                 if (x < limitX[1]) {
-                    x += incr; // right
+                    if (x === 150 && y < 175) {
+                        console.log("out of bounds");
+                    } else if (x === 150 & y !== 250) {
+                        console.log("that's a wall");
+                    } else if (x === 325 && y !== 250) {
+                        console.log("that's a wall");
+                    } else {
+                        x += incr; // right
+                    }
+                } else {
+                    console.log("out of bounds");
                 }
             } else if (k === "ArrowLeft" || k === "4" || k === "h") {
                 if (x > limitX[0]) {
-                    x -= incr; // left
+                    if (x === 350 && y > 325) {
+                        console.log("out of bounds");
+                    } else if (x === 175 & y !== 250) {
+                        console.log("that's a wall");
+                    } else if (x === 350 && y !== 250) {
+                        console.log("that's a wall");
+                    } else {
+                        x -= incr; // left
+                    }
+                } else {
+                    console.log("out of bounds");
                 }
             } else {
                 if (y < limitY[1]) {
-                    y += incr; // down
+                    if (x < 350 && y === 325) {
+                        console.log("out of bounds");
+                    } else if (x !== 125 && y === 150) {
+                        console.log("that's a wall");
+                    } else if (x !== 375 && y === 325) {
+                        console.log("that's a wall");
+                    } else {
+                        y += incr; // down
+                    }
+                } else {
+                    console.log("out of bounds");
                 }
             }
             model.pos = [x, y];
@@ -71,7 +135,6 @@ var fourRoomsApp = function (d) {
     });
 
     function init() {
-        // renderRooms(model.roomSize);
         renderPointer(model.pos);
     }
     init();
