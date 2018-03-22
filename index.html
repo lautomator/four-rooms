@@ -8,126 +8,48 @@
     <meta name="description" content="Use the arrow keys to visit the four rooms.">
     <meta name="author" content="https://github.com/lautomator">
     <title>Four Rooms</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        body{ font-family: "Monaco", sans-serif; }
-
-        .mobile { display: none; }
-
-        .container {
-            height: 525px;
-            margin: 10px auto;
-            width: 525px;
-        }
-
-        .row {
-            background-color: #ccff99;
-            height: 175px;
-            position: relative;
-            width: 100%;
-        }
-
-        .room {
-            display: inline-block;
-            position: absolute;
-        }
-
-        #mainRoom {
-            background-color: yellow;
-            height: 175px;
-            left: 175px;
-            position: absolute;
-            top: 0;
-            width: 175px;
-        }
-
-        #roomA {
-            background-color: #e0e0e0;
-            left: 175px;
-            height: 175px;
-            top: 0;
-            width: 175px;
-        }
-
-        #roomB {
-            background-color: #c0c0c0;
-            height: 175px;
-            left: 350px;
-            position: absolute;
-            top: 0;
-            width: 175px;
-        }
-
-        #roomC {
-            background-color: #a0a0a0;
-            height: 175px;
-            left: 175px;
-            position: absolute;
-            top: 0;
-            width: 175px;
-        }
-
-        #roomD {
-            background-color: #808080;
-            left: 0;
-            height: 175px;
-            position: absolute;
-            top: 0;
-            width: 175px;
-        }
-
-        #pointer {
-            background-color: cyan;
-            display: inline-block;
-            height: 25px;
-            left: 75px;
-            position: relative;
-            top: 75px;
-            width: 25px;
-        }
-
-        @media (max-width:768px) {
-            .container { display: none; }
-            .mobile { display: block; }
-        }
-    </style>
 </head>
 <body>
     <div class="mobile"><p>This app is currently for desktop only.</p></div>
     <div class="container">
+        <div id="pointer">&nbsp;</div>
         <div class="row">
-            <div id="roomA" class="room">A</div>
+            <div class="room room-left">1</div>
         </div>
 
         <div class="row">
-            <div id="roomD" class="room">D</div>
-            <div id="mainRoom" class="room">
-                <div id="pointer" style="text-align: center; line-height: 28px; font-size: 16px; color: cyan;">X</div>
-            </div>
-            <div id="roomB" class="room">B</div>
+            <div class="room room-left">2</div>
+            <div class="room room-middle">Main</div>
+            <div class="room room-right">3</div>
         </div>
 
         <div class="row">
-            <div id="roomC" class="room">C</div>
+            <div class="room room-right">4</div>
         </div>
     </div><!-- /container -->
 
     <script>
         var data = {
             targets: {
+                head: document.getElementsByTagName("head"),
                 body: document.getElementsByTagName("body"),
                 mainRoom: document.getElementById("mainRoom"),
                 pointer: document.getElementById("pointer")
             },
             scriptName: "main.js",
+            styleName: "style.css",
             v: Math.random(0, 1000) * 1000,
+            style: document.createElement("link"),
             script: document.createElement("script")
         };
-        // enqueue the script
+
+        // enqueue the style sheet
+        data.style.href = data.styleName + "?v=" + data.v.toString().replace(".", "");
+        data.style.rel = "stylesheet";
+        data.style.type = "text/css";
+        data.targets.head[0].appendChild(data.style);
+
+        // enqueue the main script
         data.script.src = data.scriptName + "?v=" + data.v.toString().replace(".", "");
         data.targets.body[0].appendChild(data.script);
     </script>

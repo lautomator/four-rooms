@@ -9,8 +9,12 @@ var fourRoomsApp = function (d) {
     var model = {
         htmlTargets: d.targets,
         actionKeys: ["ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown", "8", "6", "4", "2", "u", "k", "h", "n"],
-        pos: [75, 75], // x, y
+        pos: [250, 250], // x, y
         incr: 25,
+        perimeter: {
+            x: [0, 500], // min, max
+            y: [0, 500]
+        },
         roomSize: [175, 175] // w, h
     };
 
@@ -29,37 +33,28 @@ var fourRoomsApp = function (d) {
 
     function movePointer(k) {
         // Takes in the key name <str>.
-        // Checks for a valid key.
         var x = model.pos[0];
         var y = model.pos[1];
         const incr = model.incr;
-        const limitX = [0, model.roomSize[0] - incr];
-        const limitY = [0, model.roomSize[1] - incr];
+        const limitX = model.perimeter.x;
+        const limitY = model.perimeter.x;
 
         if (model.actionKeys.indexOf(k) > -1) {
             if (k === "ArrowUp" || k === "8" || k === "u") {
-                if (y === limitY[0]) {
-                    if (x === 75) {
-                        y -= incr; // up
-                    }
-                } else {
+                // check perimieter
+                if (y > limitY[0]) {
                     y -= incr; // up
                 }
-
             } else if (k === "ArrowRight" || k === "6" || k === "k") {
-                if (x !== limitX[1]) {
+                if (x < limitX[1]) {
                     x += incr; // right
                 }
             } else if (k === "ArrowLeft" || k === "4" || k === "h") {
-                if (x !== limitX[0]) {
+                if (x > limitX[0]) {
                     x -= incr; // left
                 }
             } else {
-                if (y === limitY[1]) {
-                    if (x === 75) {
-                        y += incr; // down
-                    }
-                } else {
+                if (y < limitY[1]) {
                     y += incr; // down
                 }
             }
@@ -76,7 +71,7 @@ var fourRoomsApp = function (d) {
     });
 
     function init() {
-        renderRooms(model.roomSize);
+        // renderRooms(model.roomSize);
         renderPointer(model.pos);
     }
     init();
