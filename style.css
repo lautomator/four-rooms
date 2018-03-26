@@ -12,7 +12,6 @@ body { font-family: sans-serif; }
     height: 525px;
     margin: 10px auto;
     width: 525px;
-    z-index: 0;
 }
 
 .row {
@@ -53,7 +52,6 @@ body { font-family: sans-serif; }
     position: relative;
     top: 0;
     width: 25px;
-    z-index: 999;
 }
 
 @media (max-width:768px) {
