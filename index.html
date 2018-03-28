@@ -10,22 +10,9 @@
     <title>Four Rooms</title>
 </head>
 <body>
-    <div class="mobile"><p>This app is currently for desktop only.</p></div>
+    <div class="mobile"><p>This game is for desktop only.</p></div>
     <div class="container">
         <div id="pointer">&nbsp;</div>
-<!--         <div class="row">
-            <div class="room room-left">A</div>
-        </div>
-
-        <div class="row">
-            <div class="room room-left">B</div>
-            <div class="room room-middle">Main</div>
-            <div class="room room-right">C</div>
-        </div>
-
-        <div class="row">
-            <div class="room room-right">D</div>
-        </div> -->
     </div><!-- /container -->
 
     <script>
@@ -43,15 +30,15 @@
             script: document.createElement("script")
         };
 
+        // enqueue the main script
+        data.script.src = data.scriptName + "?v=" + data.v.toString().replace(".", "");
+        data.targets.body[0].appendChild(data.script);
+
         // enqueue the style sheet
         data.style.href = data.styleName + "?v=" + data.v.toString().replace(".", "");
         data.style.rel = "stylesheet";
         data.style.type = "text/css";
         data.targets.head[0].appendChild(data.style);
-
-        // enqueue the main script
-        data.script.src = data.scriptName + "?v=" + data.v.toString().replace(".", "");
-        data.targets.body[0].appendChild(data.script);
     </script>
 </body>
 </html>

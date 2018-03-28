@@ -18,12 +18,14 @@ var fourRoomsApp = function (d) {
         rooms: {
             roomA: {
                 perim: {
-                    x: [25, 425],    // min, max
+                    x: [25, 425], // min, max
                     y: [25, 200]
                 },
                 doors: [
-                    [175, 200], // x, y starting point
-                    [300, 200]
+                    [175, 200], // x, y
+                    [200, 200],
+                    [300, 200],
+                    [325, 200]
                 ]
             },
             roomB: {
@@ -32,7 +34,8 @@ var fourRoomsApp = function (d) {
                     y: [25, 200]
                 },
                 doors: [
-                    [500, 200]
+                    [500, 200],
+                    [525, 200]
                 ]
             },
             roomC: {
@@ -41,7 +44,8 @@ var fourRoomsApp = function (d) {
                     y: [250, 575]
                 },
                 doors: [
-                    [175, 250]
+                    [175, 250],
+                    [200, 250]
                 ]
             },
             roomD: {
@@ -51,7 +55,9 @@ var fourRoomsApp = function (d) {
                 },
                 doors: [
                     [300, 250],
-                    [500, 250]
+                    [325, 250],
+                    [500, 250],
+                    [525, 250]
                 ]
             }
         }
@@ -94,20 +100,46 @@ var fourRoomsApp = function (d) {
         }
 
         if (room === 1) {
+            // room 1
             perim.limit = model.rooms.roomA.perim;
             perim.except = model.rooms.roomA.doors;
         } else if (room === 2) {
+            // room 2
             perim.limit = model.rooms.roomB.perim;
             perim.except = model.rooms.roomB.doors;
         }  else if (room === 3) {
+            // room 3
             perim.limit = model.rooms.roomC.perim;
             perim.except = model.rooms.roomC.doors;
-        }  else {
+        }
+        else {
             // room 4
             perim.limit = model.rooms.roomD.perim;
             perim.except = model.rooms.roomD.doors;
         }
         return perim;
+    }
+
+    function checkForDoor(pos, perim) {
+        // Returns true if the position
+        // is in front of a doorway <bool>.
+        // Takes in the position <array> and
+        // the perimeter details <obj>.
+        var isDoor = false;
+        var index = 0;
+        var x = pos[0];
+        var y = pos[1];
+        var doors = perim.except;
+        var len = doors.length;
+
+        while (index < len) {
+            if (doors[index][1] === y && doors[index][0] === x) {
+                isDoor = true;
+                break;
+            }
+            index += 1;
+        }
+        return isDoor;
     }
 
     function movePointer(k, room) {
@@ -118,32 +150,24 @@ var fourRoomsApp = function (d) {
         var y = model.pos[1];
         var loc = getPointerLocation(model.pos);
         var perim = getRoomPerimeter(room);
-        var index = 0;
+        var isDoor = checkForDoor(model.pos, perim);
 
         if (model.actionKeys.indexOf(k) > -1) {
             if (k === "ArrowUp" || k === "8" || k === "u") {
-                while (index < perim.except.length) {
-                    if (y === perim.except[index][1] && x >= perim.except[index][0] && x <= perim.except[index][0] + incr || y < perim.limit.y[1] || y > perim.limit.y[0]) {
-                        y -= incr; // up
-                        break;
-                    }
-                    index += 1;
+                if (y > perim.limit.y[0] || isDoor || room === -1) {
+                    y -= incr; // up
                 }
             } else if (k === "ArrowRight" || k === "6" || k === "k") {
-                if (x < perim.limit.x[1]) {
+                if (x < perim.limit.x[1] || isDoor || room === -1) {
                     x += incr; // right
                 }
             } else if (k === "ArrowLeft" || k === "4" || k === "h") {
-                if (x > perim.limit.x[0]) {
+                if (x > perim.limit.x[0] || isDoor || room === -1) {
                     x -= incr; // left
                 }
             } else {
-                while (index < perim.except.length) {
-                    if (y === perim.except[index][1] && x >= perim.except[index][0] && x <= perim.except[index][0] + incr || y < perim.limit.y[1]) {
-                        y += incr; // down
-                        break;
-                    }
-                    index += 1;
+                if (y < perim.limit.y[1] || isDoor || room === -1) {
+                    y += incr; // down
                 }
             }
             model.pos = [x, y];
@@ -163,7 +187,7 @@ var fourRoomsApp = function (d) {
         var room = getPointerLocation(model.pos);
         movePointer(keyName, room);
         renderPointer(model.pos);
-        console.log(model.pos, "|", room);
+        console.log("pos:", model.pos, "room:", room);
     });
 
     function init() {

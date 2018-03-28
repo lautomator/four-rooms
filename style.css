@@ -56,5 +56,13 @@ body { font-family: sans-serif; }
 
 @media (max-width:768px) {
     .container { display: none; }
-    .mobile { display: block; }
+    .mobile {
+        background-color: #000;
+        color: #fff;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        margin: 15px;
+        text-align: center;
+    }
 }
