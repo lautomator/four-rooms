@@ -24,8 +24,12 @@ var fourRoomsApp = function (d) {
                 doors: [
                     [175, 200], // x, y
                     [200, 200],
+                    [175, 225],
+                    [200, 225],
                     [300, 200],
-                    [325, 200]
+                    [325, 200],
+                    [300, 225],
+                    [325, 225]
                 ]
             },
             roomB: {
@@ -35,7 +39,9 @@ var fourRoomsApp = function (d) {
                 },
                 doors: [
                     [500, 200],
-                    [525, 200]
+                    [525, 200],
+                    [500, 225],
+                    [525, 225]
                 ]
             },
             roomC: {
@@ -45,7 +51,9 @@ var fourRoomsApp = function (d) {
                 },
                 doors: [
                     [175, 250],
-                    [200, 250]
+                    [200, 250],
+                    [175, 225],
+                    [200, 225]
                 ]
             },
             roomD: {
@@ -57,7 +65,11 @@ var fourRoomsApp = function (d) {
                     [300, 250],
                     [325, 250],
                     [500, 250],
-                    [525, 250]
+                    [525, 250],
+                    [300, 225],
+                    [325, 225],
+                    [500, 225],
+                    [525, 225]
                 ]
             }
         }
@@ -154,19 +166,19 @@ var fourRoomsApp = function (d) {
 
         if (model.actionKeys.indexOf(k) > -1) {
             if (k === "ArrowUp" || k === "8" || k === "u") {
-                if (y > perim.limit.y[0] || isDoor || room === -1) {
+                if (y > perim.limit.y[0] || isDoor) {
                     y -= incr; // up
                 }
             } else if (k === "ArrowRight" || k === "6" || k === "k") {
-                if (x < perim.limit.x[1] || isDoor || room === -1) {
+                if (x < perim.limit.x[1] || isDoor) {
                     x += incr; // right
                 }
             } else if (k === "ArrowLeft" || k === "4" || k === "h") {
-                if (x > perim.limit.x[0] || isDoor || room === -1) {
+                if (x > perim.limit.x[0] || isDoor) {
                     x -= incr; // left
                 }
             } else {
-                if (y < perim.limit.y[1] || isDoor || room === -1) {
+                if (y < perim.limit.y[1] || isDoor) {
                     y += incr; // down
                 }
             }
