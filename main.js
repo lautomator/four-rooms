@@ -8,7 +8,13 @@ var fourRoomsApp = function (d) {
 
     var model = {
         htmlTargets: d.targets,
-        actionKeys: ["ArrowUp", "ArrowLeft", "ArrowRight", "ArrowDown", "8", "6", "4", "2", "u", "k", "h", "n"],
+        actionKeys: {
+            up: ["ArrowUp", "8", "u"],
+            down: ["ArrowDown", "2", "n"],
+            left: ["ArrowLeft", "4", "h"],
+            right: ["ArrowRight", "6", "k"],
+            action: ["Shift"]
+        },
         pos: [25, 25], // x, y
         incr: 25,
         perimeter: {
@@ -47,7 +53,7 @@ var fourRoomsApp = function (d) {
             roomC: {
                 perim: {
                     x: [25, 225],
-                    y: [250, 575]
+                    y: [225, 575]
                 },
                 doors: [
                     [175, 250],
@@ -164,26 +170,30 @@ var fourRoomsApp = function (d) {
         var perim = getRoomPerimeter(room);
         var isDoor = checkForDoor(model.pos, perim);
 
-        if (model.actionKeys.indexOf(k) > -1) {
-            if (k === "ArrowUp" || k === "8" || k === "u") {
-                if (y > perim.limit.y[0] || isDoor) {
-                    y -= incr; // up
-                }
-            } else if (k === "ArrowRight" || k === "6" || k === "k") {
-                if (x < perim.limit.x[1] || isDoor) {
-                    x += incr; // right
-                }
-            } else if (k === "ArrowLeft" || k === "4" || k === "h") {
-                if (x > perim.limit.x[0] || isDoor) {
-                    x -= incr; // left
-                }
-            } else {
-                if (y < perim.limit.y[1] || isDoor) {
-                    y += incr; // down
-                }
+        if (model.actionKeys.up.indexOf(k) > -1) {
+            if (y > perim.limit.y[0] || isDoor) {
+                y -= incr; // up
             }
-            model.pos = [x, y];
+        } else if (model.actionKeys.right.indexOf(k) > -1) {
+            if (x < perim.limit.x[1] || isDoor) {
+                x += incr; // right
+            }
+        } else if (model.actionKeys.left.indexOf(k) > -1) {
+            if (x > perim.limit.x[0] || isDoor) {
+                x -= incr; // left
+            }
+        } else if (model.actionKeys.down.indexOf(k) > -1) {
+            if (y < perim.limit.y[1] || isDoor) {
+                y += incr; // down
+            }
+        } else {
+            if (k === model.actionKeys.action[0]) {
+                // action
+                console.log("action");
+            }
         }
+        model.pos = [x, y];
+        console.log("pos:", model.pos, "room:", room, isDoor);
     }
 
     // views
@@ -199,7 +209,6 @@ var fourRoomsApp = function (d) {
         var room = getPointerLocation(model.pos);
         movePointer(keyName, room);
         renderPointer(model.pos);
-        console.log("pos:", model.pos, "room:", room);
     });
 
     function init() {
