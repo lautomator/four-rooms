@@ -15,205 +15,115 @@ var fourRoomsApp = function (d) {
             right: ["ArrowRight", "6", "k"],
             action: ["Shift"]
         },
-        pos: [25, 25], // x, y
-        incr: 25,
-        perimeter: {
-            x: [25, 575], // min, max
-            y: [25, 575]
+        pos: {
+            current: [25, 25], // x, y
+            previous: [25, 25]
         },
+        incr: 25,
+        map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225]],
         rooms: {
             roomA: {
                 perim: {
                     x: [25, 425], // min, max
                     y: [25, 200]
-                },
-                doors: [
-                    [175, 200], // x, y
-                    [200, 200],
-                    [175, 225],
-                    [200, 225],
-                    [300, 200],
-                    [325, 200],
-                    [300, 225],
-                    [325, 225]
-                ]
+                }
             },
             roomB: {
                 perim: {
                     x: [475, 575],
                     y: [25, 200]
-                },
-                doors: [
-                    [500, 200],
-                    [525, 200],
-                    [500, 225],
-                    [525, 225]
-                ]
+                }
             },
             roomC: {
                 perim: {
                     x: [25, 225],
                     y: [225, 575]
-                },
-                doors: [
-                    [175, 250],
-                    [200, 250],
-                    [175, 225],
-                    [200, 225]
-                ]
+                }
             },
             roomD: {
                 perim: {
                     x: [275, 575],
                     y: [250, 575]
-                },
-                doors: [
-                    [300, 250],
-                    [325, 250],
-                    [500, 250],
-                    [525, 250],
-                    [300, 225],
-                    [325, 225],
-                    [500, 225],
-                    [525, 225]
-                ]
+                }
             }
         }
     };
 
-    function getPointerLocation(pos) {
-        // Returns the room the pointer
-        // is located in <num>. Takes in
-        // the position <array>.
-        // position (pos) = [x, y].
-        var room = null;
-        var rooms = model.rooms;
-
-        if (pos[0] >= rooms.roomA.perim.x[0] && pos[0] <= rooms.roomA.perim.x[1] && pos[1] >= rooms.roomA.perim.y[0] && pos[1] <= rooms.roomA.perim.y[1]) {
-            // room A
-            room = 1;
-        } else if (pos[0] >= rooms.roomB.perim.x[0] && pos[0] <= rooms.roomB.perim.x[1] && pos[1] >= rooms.roomB.perim.y[0] && pos[1] <= rooms.roomB.perim.y[1]) {
-            // room B
-            room = 2;
-        } else if (pos[0] >= rooms.roomC.perim.x[0] && pos[0] <= rooms.roomC.perim.x[1] && pos[1] >= rooms.roomC.perim.y[0] && pos[1] <= rooms.roomC.perim.y[1]) {
-            // room C
-            room = 3;
-        } else if (pos[0] >= rooms.roomD.perim.x[0] && pos[0] <= rooms.roomD.perim.x[1] && pos[1] >= rooms.roomD.perim.y[0] && pos[1] <= rooms.roomD.perim.y[1]) {
-            // room D
-            room = 4;
-        } else {
-            // could be a doorway or other
-            room = -1;
-        }
-        return room;
-    }
-
-    function getRoomPerimeter(room) {
-        // Returns a room's perimeter
-        // limits <obj> and door specs
-        // <obj>. Takes in the room <num>.
-        var perim = {
-            limit: null,
-            except: null
-        }
-
-        if (room === 1) {
-            // room 1
-            perim.limit = model.rooms.roomA.perim;
-            perim.except = model.rooms.roomA.doors;
-        } else if (room === 2) {
-            // room 2
-            perim.limit = model.rooms.roomB.perim;
-            perim.except = model.rooms.roomB.doors;
-        }  else if (room === 3) {
-            // room 3
-            perim.limit = model.rooms.roomC.perim;
-            perim.except = model.rooms.roomC.doors;
-        }
-        else {
-            // room 4
-            perim.limit = model.rooms.roomD.perim;
-            perim.except = model.rooms.roomD.doors;
-        }
-        return perim;
-    }
-
-    function checkForDoor(pos, perim) {
-        // Returns true if the position
-        // is in front of a doorway <bool>.
-        // Takes in the position <array> and
-        // the perimeter details <obj>.
-        var isDoor = false;
+    function checkMap(pos) {
+        // Takes in the pos <array>.
+        // Returns true if the
+        // position is on a map
+        // line; false if not.
+        const map = model.map;
         var index = 0;
-        var x = pos[0];
-        var y = pos[1];
-        var doors = perim.except;
-        var len = doors.length;
+        var len = map.length;
+        var inMap = true;
 
         while (index < len) {
-            if (doors[index][1] === y && doors[index][0] === x) {
-                isDoor = true;
+            if (pos[0] === map[index][0] && pos[1] === map[index][1]) {
+                inMap = false;
                 break;
             }
             index += 1;
         }
-        return isDoor;
+        return inMap;
     }
 
-    function movePointer(k, room) {
-        // Takes in the key name <str>
-        // and the room <num>.
+    function movePointer(k) {
+        // Takes in the key name <str>.
+        // Returns the new position <array>.
         const incr = model.incr;
-        var x = model.pos[0];
-        var y = model.pos[1];
-        var loc = getPointerLocation(model.pos);
-        var perim = getRoomPerimeter(room);
-        var isDoor = checkForDoor(model.pos, perim);
+        var x = model.pos.current[0];
+        var y = model.pos.current[1];
+        var pos = {
+            current: [x, y],
+            previous: model.pos.previous
+        };
 
-        if (model.actionKeys.up.indexOf(k) > -1) {
-            if (y > perim.limit.y[0] || isDoor) {
+        if (checkMap(pos.current)) {
+            pos.previous = [x, y];
+            if (model.actionKeys.up.indexOf(k) > -1) {
                 y -= incr; // up
-            }
-        } else if (model.actionKeys.right.indexOf(k) > -1) {
-            if (x < perim.limit.x[1] || isDoor) {
+            } else if (model.actionKeys.right.indexOf(k) > -1) {
                 x += incr; // right
-            }
-        } else if (model.actionKeys.left.indexOf(k) > -1) {
-            if (x > perim.limit.x[0] || isDoor) {
+            } else if (model.actionKeys.left.indexOf(k) > -1) {
                 x -= incr; // left
-            }
-        } else if (model.actionKeys.down.indexOf(k) > -1) {
-            if (y < perim.limit.y[1] || isDoor) {
+            } else if (model.actionKeys.down.indexOf(k) > -1) {
                 y += incr; // down
+            } else {
+                if (k === model.actionKeys.action[0]) {
+                    // action
+                    console.log("action");
+                }
             }
+            pos.current = [x, y];
         } else {
-            if (k === model.actionKeys.action[0]) {
-                // action
-                console.log("action");
-            }
+            pos.current = pos.previous;
         }
-        model.pos = [x, y];
-        console.log("pos:", model.pos, "room:", room, isDoor);
+        return pos;
     }
 
     // views
     function renderPointer(pos) {
         var pointerEl = model.htmlTargets.pointer;
+
         pointerEl.style.left = pos[0].toString() + "px";
-        pointerEl.style.top = pos[1].toString()  + "px";
+        pointerEl.style.top = pos[1].toString() + "px";
     }
 
-    // controller
-    document.addEventListener("keydown", function (item) {
-        const keyName = item.key;
-        var room = getPointerLocation(model.pos);
-        movePointer(keyName, room);
-        renderPointer(model.pos);
-    });
+    function main(m) {
+        renderPointer(m.pos.current);
 
-    function init() {
-        renderPointer(model.pos);
+        document.addEventListener("keydown", function (item) {
+            var keyName = item.key;
+            var pos = movePointer(keyName);
+
+            model.pos.current = pos.current;
+            model.pos.previous = pos.previous;
+            console.log("pos:", m.pos.current, "prev", m.pos.previous);
+            renderPointer(m.pos.current);
+        });
     }
-    init();
+    main(model);
 };
 fourRoomsApp(data);

@@ -8,7 +8,7 @@ body { font-family: sans-serif; }
 .mobile { display: none; }
 
 .container {
-    background: url("img/floor-plan.png") no-repeat #ccff99;
+    background: url("img/floor-plan.png?v=04062018") no-repeat #ccff99;
     height: 625px;
     margin: 10px auto;
     width: 625px;
