@@ -57,9 +57,9 @@ body { font-family: sans-serif; }
 #sword {
     background: url("img/sword.png?v=20180417") no-repeat;
     height: 25px;
-    left: 100px;
+    left: 550px;
     position: relative;
-    top: 100px;
+    top: 50px;
     width: 50px;
 }
 
