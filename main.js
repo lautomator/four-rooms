@@ -61,6 +61,7 @@ var fourRoomsApp = function (d) {
 
         while (index < len) {
             if (pos[0] === map[index][0] && pos[1] === map[index][1]) {
+                // the pointer is on a perimeter
                 inMap = false;
                 break;
             }
@@ -80,25 +81,31 @@ var fourRoomsApp = function (d) {
             previous: model.pos.previous
         };
 
-        if (checkMap(pos.current)) {
-            pos.previous = [x, y];
-            if (model.actionKeys.up.indexOf(k) > -1) {
-                y -= incr; // up
-            } else if (model.actionKeys.right.indexOf(k) > -1) {
-                x += incr; // right
-            } else if (model.actionKeys.left.indexOf(k) > -1) {
-                x -= incr; // left
-            } else if (model.actionKeys.down.indexOf(k) > -1) {
-                y += incr; // down
-            } else {
-                if (k === model.actionKeys.action[0]) {
-                    // action
-                    console.log("action");
-                }
-            }
-            pos.current = [x, y];
+        pos.previous = [x, y];
+
+        if (model.actionKeys.up.indexOf(k) > -1) {
+            y -= incr; // up
+        } else if (model.actionKeys.right.indexOf(k) > -1) {
+            x += incr; // right
+        } else if (model.actionKeys.left.indexOf(k) > -1) {
+            x -= incr; // left
+        } else if (model.actionKeys.down.indexOf(k) > -1) {
+            y += incr; // down
         } else {
+            if (k === model.actionKeys.action[0]) {
+                // action
+                console.log("action");
+            }
+        }
+
+        pos.current = [x, y];
+
+        // check to see if move is valid before
+        // updating the actual position of the pointer
+        if (checkMap(pos.current) === false) {
+            // revert
             pos.current = pos.previous;
+            pos.previous = model.pos.previous;
         }
         return pos;
     }
@@ -120,9 +127,14 @@ var fourRoomsApp = function (d) {
 
             model.pos.current = pos.current;
             model.pos.previous = pos.previous;
-            console.log("pos:", m.pos.current, "prev", m.pos.previous);
+            // console.log("pos:", m.pos.current, "prev", m.pos.previous);
             renderPointer(m.pos.current);
         });
+
+        document.addEventListener("keyup", function (item) {
+            console.log("pos:", model.pos.current, "prev", model.pos.previous);
+        });
+
     }
     main(model);
 };
