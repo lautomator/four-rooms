@@ -8,7 +8,7 @@ body { font-family: sans-serif; }
 .mobile { display: none; }
 
 .container {
-    background: url("img/floor-plan.png?v=04062018") no-repeat #ccff99;
+    background: url("img/floor-plan.png?v=20180406") no-repeat #ccff99;
     height: 625px;
     margin: 10px auto;
     width: 625px;
@@ -52,6 +52,15 @@ body { font-family: sans-serif; }
     position: relative;
     top: 0;
     width: 25px;
+}
+
+#sword {
+    background: url("img/sword.png?v=20180417") no-repeat;
+    height: 25px;
+    left: 100px;
+    position: relative;
+    top: 100px;
+    width: 50px;
 }
 
 @media (max-width:768px) {
