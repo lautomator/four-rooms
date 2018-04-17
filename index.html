@@ -13,8 +13,12 @@
 <body>
     <div class="mobile"><p>This game is for desktop only.</p></div>
     <div class="container">
-        <div id="pointer">&nbsp;</div>
-        <div id="sword">&nbsp;</div>
+        <div class="field">
+            <div class="object" id="pointer">&nbsp;</div>
+            <div class="object" id="key">&nbsp;</div>
+            <div class="object" id="sword">&nbsp;</div>
+            <div class="object" id="door">&nbsp;</div>
+        </div>
     </div><!-- /container -->
 
     <script>
@@ -22,9 +26,10 @@
             targets: {
                 head: document.getElementsByTagName("head"),
                 body: document.getElementsByTagName("body"),
-                mainRoom: document.getElementById("mainRoom"),
                 pointer: document.getElementById("pointer"),
-                sword: document.getElementById("sword")
+                key: document.getElementById("key"),
+                sword: document.getElementById("sword"),
+                door: document.getElementById("door")
             },
             scriptName: "main.js",
             styleName: "style.css",

@@ -10,56 +10,49 @@ body { font-family: sans-serif; }
 .container {
     background: url("img/floor-plan.png?v=20180406") no-repeat #ccff99;
     height: 625px;
-    margin: 10px auto;
+    margin: 25px auto;
     width: 625px;
 }
 
-.row {
-    height: 175px;
-    position: relative;
-    width: 100%;
-}
-
-.room {
-    display: inline-block;
-    height: 175px;
-    padding: 5px;
+.field {
     position: absolute;
-    width: 175px;
 }
 
-.room-middle {
-    left: 175px;
-    top: 0;
-}
-
-.room-right {
-    left: 350px;
-    top: 0;
-}
-
-.room-left {
-    left: 0;
-    top: 0;
+.object {
+    display: inline-block;
+    float: left;
+    position: absolute;
 }
 
 #pointer {
     background-color: orange;
-    display: inline-block;
-    float: left;
     height: 25px;
-    left: 0;
-    position: relative;
-    top: 0;
+    left: 25px;
+    top: 25px;
+    width: 25px;
+}
+
+#key {
+    background: url("img/key.png?v=20180417") no-repeat;
+    height: 25px;
+    left: 550px;
+    top: 50px;
     width: 25px;
 }
 
 #sword {
     background: url("img/sword.png?v=20180417") no-repeat;
     height: 25px;
-    left: 550px;
-    position: relative;
-    top: 50px;
+    left: 75px;
+    top: 300px;
+    width: 25px;
+}
+
+#door {
+    background: url("img/door.png?v=20180417") no-repeat;
+    height: 25px;
+    left: 300px;
+    top: 225px;
     width: 50px;
 }
 
