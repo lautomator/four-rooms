@@ -31,12 +31,39 @@ var fourRoomsApp = function (d) {
                 pos: [75, 300],
                 act: false
             },
+            phone: {
+                pos: [475, 500],
+                act: false
+            },
             door: {
                 pos: [300, 225],
                 act: false
             }
         }
     };
+
+    function updateItems(k, pointerPos, items) {
+        // Returns the updated items <obj>.
+        // Takes in the key <array>, pointer
+        // position <array> and the items <obj>.
+        var updated = items;
+        var x = pointerPos.current[0];
+        var y = pointerPos.current[1];
+
+        if (x === items.key.pos[0] && y === items.key.pos[1]) {
+            updated.key.act = true;
+        } else if (items.key.act) {
+            updated.key.pos = [x, y];
+        } else {
+            updated.key.act = false;
+        }
+
+        if (k[1] === model.actionKeys.action) {
+            updated.key.act = false;
+        }
+
+        return updated;
+    }
 
     function checkMap(pos) {
         // Takes in the pos <array>.
@@ -84,8 +111,7 @@ var fourRoomsApp = function (d) {
             y += incr; // down
         } else {
             if (keyCode === model.actionKeys.action) {
-                // action
-                console.log("action");
+                // release all of the items
             }
         }
 
@@ -102,29 +128,6 @@ var fourRoomsApp = function (d) {
         return pos;
     }
 
-    function updateItems(pointerPos, items) {
-        // Returns the updated items <obj>.
-        // Takes in the pointer position
-        // <array> and the items <obj>.
-        var updated = items;
-        var x = pointerPos[0];
-        var y = pointerPos[1];
-        var index = 0;
-        var len = items.length;
-
-        while (index < len) {
-            console.log(items[index]);
-            index += 1;
-        }
-
-
-        // if (pos.current[0] === model.objects.sword.pos[0] && pos.current[1] === model.objects.sword.pos[1]) {
-        //     model.objects.sword.has = true;
-        //     model.objects.sword.pos = pos.current;
-        // }
-
-    }
-
     // views
     function renderPointer(pos) {
         var pointerEl = model.htmlTargets.pointer;
@@ -133,9 +136,9 @@ var fourRoomsApp = function (d) {
     }
 
     function renderItems(items) {
-        var itemEl = model.htmlTargets.sword;
-        itemEl.style.left = pos[0].toString() + "px";
-        itemEl.style.top = pos[1].toString() + "px";
+        var itemEl = model.htmlTargets.key;
+        itemEl.style.left = items.key.pos[0].toString() + "px";
+        itemEl.style.top = items.key.pos[1].toString() + "px";
     }
 
     // controller
@@ -145,16 +148,16 @@ var fourRoomsApp = function (d) {
         document.addEventListener("keydown", function (item) {
             var keyHit = [item.key, item.keyCode];
             var pos = movePointer(keyHit);
-            var items = updateItems(pos, m.items);
+            var items = updateItems(keyHit, pos, m.items);
 
             model.pos.current = pos.current;
             model.pos.previous = pos.previous;
-            // model.items = items;
+            model.items = items;
 
             renderPointer(m.pos.current);
-            // renderItems(m.items);
+            renderItems(m.items);
 
-            console.log("pos:", model.pos.current);
+            console.log("pos:", model.pos.current, model.items.key.act, model.items.key.pos);
         });
     }
     main(model);
