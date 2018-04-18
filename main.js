@@ -9,6 +9,8 @@ var fourRoomsApp = function (d) {
 
     var model = {
         htmlTargets: d.targets,
+        htmlTemplates: d.templates,
+        imagesPath: "img/",
         actionKeys: {
             up: ["ArrowUp", "8", "u"],
             down: ["ArrowDown", "2", "n"],
@@ -21,32 +23,29 @@ var fourRoomsApp = function (d) {
             previous: [25, 25]
         },
         incr: 25,
-        map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225], /*[300, 225], [325, 225]*/],
+        map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225], /* door: */[300, 225], [325, 225]],
         items: [
             {
                 name: "key",
+                descr: "Use the key to unlock a door.",
                 target: d.targets.key,
-                pos: [550, 50],
+                pos: [575, 25],
                 act: false
             },
             {
                 name: "sword",
+                descr: "Slay the dragon with this sword.",
                 target: d.targets.sword,
                 pos: [75, 300],
                 act: false
             },
             {
                 name: "phone",
+                descr: "Use the phone to call someone.",
                 target: d.targets.phone,
                 pos: [475, 500],
                 act: false
-            },
-            // {
-            //     name: "door",
-            //     target: d.targets.door,
-            //     pos: [300, 225],
-            //     act: false
-            // }
+            }
         ],
         currentItem: null
     };
@@ -81,6 +80,24 @@ var fourRoomsApp = function (d) {
             index += 1;
         }
         return updated;
+    }
+
+    function getCurrentItem(items) {
+        // Returns the current item
+        // in possesion name <str>.
+        // Takes in the items <array>.
+        var index = 0;
+        var len = items.length;
+        var current = null;
+
+        while (index < len) {
+            if (items[index].act) {
+                current = items[index].name;
+                break;
+            }
+            index += 1;
+        }
+        return current;
     }
 
     function checkMap(pos) {
@@ -167,6 +184,28 @@ var fourRoomsApp = function (d) {
         }
     }
 
+    function renderCurrentItem(m) {
+        var itemsEl = m.htmlTargets.items[0];
+        var template = m.htmlTemplates.item;
+        var html = "";
+        var items = m.items;
+        var current = m.currentItem;
+        var index = 0;
+        var len = items.length;
+
+        while (index < len) {
+            if (items[index].name === current) {
+                html = template.replace("%path%", m.imagesPath + current + ".png");
+                html = html.replace("%name%", current);
+                html = html.replace("%descr%", items[index].descr);
+                break;
+            }
+            index += 1;
+        }
+
+        itemsEl.innerHTML = html;
+    }
+
     // controller
     function main(m) {
         renderPointer(m.pos.current);
@@ -175,15 +214,18 @@ var fourRoomsApp = function (d) {
             var keyHit = [item.key, item.keyCode];
             var pos = movePointer(keyHit);
             var items = updateItems(keyHit, pos, m.items);
+            var currentItem = getCurrentItem(items);
 
             model.pos.current = pos.current;
             model.pos.previous = pos.previous;
             model.items = items;
+            model.currentItem = currentItem;
 
             renderPointer(m.pos.current);
             renderItems(m.items);
+            renderCurrentItem(m);
 
-            console.log("pos:", model.pos.current, model.items[0].act, model.items[0].pos);
+            console.log("pos:", model.pos.current, model.currentItem);
         });
     }
     main(model);

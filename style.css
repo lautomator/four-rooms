@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-body { font-family: sans-serif; }
+body { font: 18px/24px sans-serif; }
 
 .mobile { display: none; }
 
@@ -20,18 +20,20 @@ body { font-family: sans-serif; }
 
 .items {
     height: 25px;
+    overflow: hidden;
     position: absolute;
     top: 660px;
     width: 625px;
 }
 
-.items ul {
-    list-style: none;
+.items img {
+    height: 25px;
+    width: 25px;
 }
 
-.items ul li {
-    display: inline-block;
-    margin-right: 25px;
+.items span {
+    padding-left: 10px;
+    vertical-align: top;
 }
 
 .object {
@@ -51,8 +53,8 @@ body { font-family: sans-serif; }
 #key {
     background: url("img/key.png?v=20180418") no-repeat;
     height: 25px;
-    left: 550px;
-    top: 50px;
+    left: 575px;
+    top: 25px;
     width: 25px;
 }
 
