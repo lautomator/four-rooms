@@ -59,10 +59,10 @@ body { font: 18px/24px sans-serif; }
 }
 
 #sword {
-    background: url("img/sword.png?v=20180417") no-repeat;
+    background: url("img/sword.png?v=20180419") no-repeat;
     height: 25px;
-    left: 75px;
-    top: 300px;
+    left: 50px;
+    top: 175px;
     width: 25px;
 }
 
@@ -80,6 +80,22 @@ body { font: 18px/24px sans-serif; }
     left: 300px;
     top: 225px;
     width: 50px;
+}
+
+#doorB {
+    background: url("img/door-b.png?v=20180419") no-repeat;
+    height: 50px;
+    left: 450px;
+    top: 150px;
+    width: 25px;
+}
+
+#doorC {
+    background: url("img/door-c.png?v=20180419") no-repeat;
+    height: 50px;
+    left: 250px;
+    top: 525px;
+    width: 25px;
 }
 
 @media (max-width:768px) {

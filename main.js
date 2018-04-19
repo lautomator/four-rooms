@@ -39,9 +39,9 @@ var fourRoomsApp = function (d) {
             },
             {
                 name: "sword",
-                descr: "Slay the dragon with this sword.",
+                descr: "Use the sword to break something.",
                 target: d.targets.sword,
-                pos: [75, 300],
+                pos: [50, 175],
                 act: false
             },
             {
