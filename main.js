@@ -24,11 +24,26 @@ var fourRoomsApp = function (d) {
         },
         incr: 25,
         map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225]],
-        door: {
-            map: [[300, 225], [325, 225]],
-            act: true, // active
-            atDoor: false
-        },
+        doors: [
+            {
+                name: "door-a",
+                map: [[300, 225], [325, 225]],
+                act: true, // active
+                atDoor: false
+            },
+            {
+                name: "door-b",
+                map: [[450, 150], [450, 175]],
+                act: true,
+                atDoor: false
+            },
+            {
+                name: "door-c",
+                map: [[250, 525], [250, 550]],
+                act: true,
+                atDoor: false
+            }
+        ],
         items: [
             {
                 name: "key",
@@ -48,7 +63,7 @@ var fourRoomsApp = function (d) {
                 name: "phone",
                 descr: "Use the phone to call someone.",
                 target: d.targets.phone,
-                pos: [475, 500],
+                pos: [50, 275],
                 act: false
             }
         ],
@@ -132,23 +147,38 @@ var fourRoomsApp = function (d) {
         // Returns true if the
         // position is at a door;
         // false if not.
-        var doorMap = model.door.map;
-        var doorActive = model.door.act;
-        var index = 0;
-        var len = doorMap.length;
+        var doors = model.doors;
+        var door = null;
         var atDoor = false;
+        var x = pos[0];
+        var y = pos[1];
+        var index = 0;
+        var len = doors.length;
+        var count = 0;
+        var mapLength = 2;
 
         while (index < len) {
-            if (pos[0] === doorMap[index][0] && pos[1] === doorMap[index][1]) {
-                // the pointer is at a door
-                model.door.atDoor = true;
-                if (doorActive) {
-                    atDoor = true;
-                    break;
+            door = doors[index];
+            while (count < mapLength) {
+                if (x === door.map[count][0] && y === door.map[count][1]) {
+                    // the pointer is at a door
+                    model.doors[index].atDoor = true;
+                    // check to see if the door is active
+                    if (model.doors[index].act) {
+                        atDoor = true;
+                        break;
+                    }
+                } else {
+                    model.doors[index].atDoor = false;
                 }
-            } else {
-                model.door.atDoor = false;
+                count += 1;
             }
+
+            if (atDoor) {
+                break;
+            }
+
+            count = 0;
             index += 1;
         }
         return atDoor;
@@ -245,12 +275,20 @@ var fourRoomsApp = function (d) {
         // per item.
         if (currentItem === "key") {
             console.log("you have the key");
-            if (model.door.atDoor) {
-                model.door.act = false;
-                model.htmlTargets.door.style.visibility = "hidden";
+            if (model.doors[0].atDoor) {
+                model.doors[0].act = false;
+                model.htmlTargets.doorA.style.visibility = "hidden";
+            }
+            if (model.doors[2].atDoor) {
+                model.doors[2].act = false;
+                model.htmlTargets.doorC.style.visibility = "hidden";
             }
         } else if (currentItem === "sword") {
             console.log("you have the sword");
+            if (model.doors[1].atDoor) {
+                model.doors[1].act = false;
+                model.htmlTargets.doorB.style.visibility = "hidden";
+            }
         } else if (currentItem === "phone") {
             console.log("you have the phone");
         } else {

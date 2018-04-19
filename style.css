@@ -69,12 +69,12 @@ body { font: 18px/24px sans-serif; }
 #phone {
     background: url("img/phone.png?v=20180418") no-repeat;
     height: 25px;
-    left: 475px;
-    top: 500px;
+    left: 50px;
+    top: 275px;
     width: 25px;
 }
 
-#door {
+#doorA {
     background: url("img/door.png?v=20180418") no-repeat;
     height: 25px;
     left: 300px;
