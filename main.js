@@ -67,6 +67,7 @@ var fourRoomsApp = function (d) {
                 act: false
             }
         ],
+        phoneBooth: [[500, 500], [525, 500], [525, 525], [500, 525], [500, 550], [525, 550]],
         currentItem: null,
         instructions: "Use the arrow keys to move and use the spacebar to drop an item."
     };
@@ -226,6 +227,27 @@ var fourRoomsApp = function (d) {
         return pos;
     }
 
+    function inBooth(pos) {
+        // Returns true or false if
+        // pos <array> is inside of
+        // the phone booth.
+        var x = pos[0];
+        var y = pos[1];
+        const booth = model.phoneBooth;
+        var index = 0;
+        var len = booth.length;
+        var success = false;
+
+        while (index < len) {
+            if (x === booth[index][0] && y === booth[index][1]) {
+                success = true;
+                break;
+            }
+            index += 1;
+        }
+        return success;
+    }
+
     // views
     function renderPointer(pos) {
         var pointerEl = model.htmlTargets.pointer;
@@ -291,6 +313,9 @@ var fourRoomsApp = function (d) {
             }
         } else if (currentItem === "phone") {
             console.log("you have the phone");
+            if (inBooth(model.pos.current)) {
+                model.htmlTargets.phoneBooth.style.background = "url(img/phone-booth-success.gif)";
+            }
         } else {
             console.log("you have nothing");
         }

@@ -98,6 +98,14 @@ body { font: 18px/24px sans-serif; }
     width: 25px;
 }
 
+#phoneBooth {
+    background: url("img/phone-booth.png?v=20180418") no-repeat;
+    height: 75px;
+    left: 500px;
+    top: 500px;
+    width: 50px;
+}
+
 @media (max-width:768px) {
     .container { display: none; }
     .mobile {
