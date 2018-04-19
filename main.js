@@ -23,7 +23,12 @@ var fourRoomsApp = function (d) {
             previous: [25, 25]
         },
         incr: 25,
-        map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225], /* door: */[300, 225], [325, 225]],
+        map: [[0, 0], [25, 0], [50, 0], [75, 0], [100, 0], [125, 0], [150, 0], [175, 0], [200, 0], [225, 0], [250, 0], [275, 0], [300, 0], [325, 0], [350, 0], [375, 0], [400, 0], [425, 0], [450, 0], [475, 0], [500, 0], [525, 0], [550, 0], [575, 0], [600, 0], [600, 25], [600, 50], [600, 75], [600, 100], [600, 125], [600, 150], [600, 175], [600, 200], [600, 225], [600, 250], [600, 275], [600, 300], [600, 325], [600, 350], [600, 375], [600, 400], [600, 425], [600, 450], [600, 475], [600, 500], [600, 525], [600, 550], [600, 575], [600, 600], [575, 600], [550, 600], [525, 600], [500, 600], [475, 600], [450, 600], [425, 600], [400, 600], [375, 600], [350, 600], [325, 600], [300, 600], [275, 600], [250, 600], [225, 600], [200, 600], [175, 600], [150, 600], [125, 600], [100, 600], [75, 600], [50, 600], [25, 600], [0, 600], [0, 575], [0, 550], [0, 525], [0, 500], [0, 475], [0, 450], [0, 425], [0, 400], [0, 375], [0, 350], [0, 325], [0, 300], [0, 275], [0, 250], [0, 225], [0, 200], [0, 175], [0, 150], [0, 125], [0, 100], [0, 75], [0, 50], [0, 25], [450, 25], [450, 50], [450, 75], [450, 100], [450, 125], [450, 200], [25, 225], [50, 225], [75, 225], [100, 225], [125, 225], [150, 225], [175, 225], [200, 225], [225, 225], [250, 225], [250, 250], [250, 275], [250, 300], [250, 325], [250, 350], [250, 375], [250, 400], [250, 425], [250, 450], [250, 475], [250, 500], [275, 225], [250, 575], [350, 225], [375, 225], [400, 225], [425, 225], [450, 225], [475, 225], [500, 225], [525, 225], [550, 225], [575, 225]],
+        door: {
+            map: [[300, 225], [325, 225]],
+            act: true, // active
+            atDoor: false
+        },
         items: [
             {
                 name: "key",
@@ -47,7 +52,8 @@ var fourRoomsApp = function (d) {
                 act: false
             }
         ],
-        currentItem: null
+        currentItem: null,
+        instructions: "Use the arrow keys to move and use the spacebar to drop an item."
     };
 
     function updateItems(k, pointerPos, items) {
@@ -121,6 +127,33 @@ var fourRoomsApp = function (d) {
         return inMap;
     }
 
+    function checkDoors(pos) {
+        // Takes in the pos <array>.
+        // Returns true if the
+        // position is at a door;
+        // false if not.
+        var doorMap = model.door.map;
+        var doorActive = model.door.act;
+        var index = 0;
+        var len = doorMap.length;
+        var atDoor = false;
+
+        while (index < len) {
+            if (pos[0] === doorMap[index][0] && pos[1] === doorMap[index][1]) {
+                // the pointer is at a door
+                model.door.atDoor = true;
+                if (doorActive) {
+                    atDoor = true;
+                    break;
+                }
+            } else {
+                model.door.atDoor = false;
+            }
+            index += 1;
+        }
+        return atDoor;
+    }
+
     function movePointer(k) {
         // Takes in the key hit <array>.
         // Returns the new position <array>.
@@ -155,12 +188,11 @@ var fourRoomsApp = function (d) {
 
         // check to see if move is valid before
         // updating the actual position of the pointer
-        if (checkMap(pos.current) === false) {
+        if (checkMap(pos.current) === false || checkDoors(pos.current)) {
             // revert
             pos.current = pos.previous;
             pos.previous = model.pos.previous;
         }
-
         return pos;
     }
 
@@ -187,7 +219,7 @@ var fourRoomsApp = function (d) {
     function renderCurrentItem(m) {
         var itemsEl = m.htmlTargets.items[0];
         var template = m.htmlTemplates.item;
-        var html = "";
+        var html = m.instructions; // default
         var items = m.items;
         var current = m.currentItem;
         var index = 0;
@@ -206,9 +238,30 @@ var fourRoomsApp = function (d) {
         itemsEl.innerHTML = html;
     }
 
+    function itemCheck(currentItem) {
+        // Takes in the current
+        // item <str>. Fires the
+        // appropriate function
+        // per item.
+        if (currentItem === "key") {
+            console.log("you have the key");
+            if (model.door.atDoor) {
+                model.door.act = false;
+                model.htmlTargets.door.style.visibility = "hidden";
+            }
+        } else if (currentItem === "sword") {
+            console.log("you have the sword");
+        } else if (currentItem === "phone") {
+            console.log("you have the phone");
+        } else {
+            console.log("you have nothing");
+        }
+    }
+
     // controller
     function main(m) {
         renderPointer(m.pos.current);
+        renderCurrentItem(m);
 
         document.addEventListener("keydown", function (item) {
             var keyHit = [item.key, item.keyCode];
@@ -224,6 +277,7 @@ var fourRoomsApp = function (d) {
             renderPointer(m.pos.current);
             renderItems(m.items);
             renderCurrentItem(m);
+            itemCheck(m.currentItem);
 
             console.log("pos:", model.pos.current, model.currentItem);
         });
