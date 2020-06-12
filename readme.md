@@ -12,4 +12,5 @@ Setup
 
 * Open `index.html` in a browser.
 
-* You can also `cd` into the project directory from your terminal and use Python SimpleHTTPServer: `python SimpleHTTPServer 9000` or run the script `sh run.sh`.
+* You can also `cd` into the project directory from your terminal and use the
+Python http server: `python3 -m http.server 9000` or run the script `sh run.sh`.
